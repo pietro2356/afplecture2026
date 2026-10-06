@@ -16,3 +16,13 @@
 #header_afp{
     text-align: center;
 }
+
+.layout-container{
+    display: flex;
+    gap: 20px;
+}
+
+#main-content{
+    flex: 1;
+    /* height:max-content; */
+}
