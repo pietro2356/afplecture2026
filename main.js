@@ -1,12 +1,13 @@
 "use strict";
-
 console.log("Ciao a tutti");
 
 const PI = 3.14;
 
 let nStudenti = 15;
 
-var nProfessori = 1;
+let nProfessori = 1;
+
+nProfessori += 1;
 
 let presentiInAula; // undefined 
 
@@ -32,7 +33,7 @@ let oggetti = {};
 let bandiera = true;
 let simboli = Symbol;
 
-function nomeFN() { };
+function nomeFN() { }
 
 
 function somma(a, b) {
