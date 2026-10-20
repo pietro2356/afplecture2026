@@ -42,3 +42,8 @@
     border-radius: 15px;
     cursor: pointer;
 }
+
+.bg-green{
+    background-color: forestgreen;
+    color: black;
+}
