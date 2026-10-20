@@ -15,6 +15,65 @@ let card = {
     }
 }
 
+const cardList = [
+    {
+        contenuto: {
+            titolo: "Primo posto", // h1
+            sottotitolo:"Sci aplinismo", // h2
+            testo: "Primo classificato alle olimpiadi", // p
+            immagine: "TriageColorEntity.png" // img
+        },
+        bordo: {
+            colore: "",
+            stile: "",
+            dimensione: "",
+            raggio: ""
+        }
+    },
+    {
+        contenuto: {
+            titolo: "Secondo posto", // h1
+            sottotitolo:"Sci aplinismo", // h2
+            testo: "Secondo classificato alle olimpiadi", // p
+            immagine: "" // img
+        },
+        bordo: {
+            colore: "",
+            stile: "",
+            dimensione: "",
+            raggio: ""
+        }
+    },
+    {
+        contenuto: {
+            titolo: "Terzo posto", // h1
+            sottotitolo:"Sci aplinismo", // h2
+            testo: "Terzo classificato alle olimpiadi", // p
+            immagine: "" // img
+        },
+        bordo: {
+            colore: "",
+            stile: "",
+            dimensione: "",
+            raggio: ""
+        }
+    },
+    {
+        contenuto: {
+            titolo: "Quarto posto", // h1
+            sottotitolo:"Sci aplinismo", // h2
+            testo: "Quarto classificato alle olimpiadi", // p
+            immagine: "TriageColorEntity.png" // img
+        },
+        bordo: {
+            colore: "",
+            stile: "",
+            dimensione: "",
+            raggio: ""
+        }
+    }
+];
+
 const cardContainer = document.querySelector("#card-container-main");
 
 const listaFigli = cardContainer.children;
@@ -39,7 +98,6 @@ function createCardElement(cardData){
     const titolo = document.createElement("h1");
     const sottoTitolo = document.createElement("h2");
     const testo = document.createElement("p");
-    const img = document.createElement("img");
 
     cardElement.classList.add("card");
 
@@ -47,38 +105,73 @@ function createCardElement(cardData){
     sottoTitolo.textContent = cardData.contenuto.sottotitolo;
     testo.textContent = cardData.contenuto.testo;
 
-    img.src = cardData.contenuto.immagine;
-    img.alt = "Immagine di esempio";
 
     cardElement.appendChild(titolo);
     cardElement.appendChild(sottoTitolo);
     cardElement.appendChild(testo);
-    cardElement.appendChild(img);
+
+    if (cardData.contenuto.immagine) {
+        const img = document.createElement("img");
+        img.src = cardData.contenuto.immagine;
+        img.alt = "Immagine di esempio";
+        img.width = 200;
+        cardElement.appendChild(img);
+    }
 
     return cardElement;
 }
 
+cardList.forEach((item) => {
+    // Crea elemento Card dai dati dell'oggetto item
+    const cardTmp = createCardElement(item);
 
-const cardN1 = createCardElement(card);
-const cardN2 = createCardElement(card);
-
-// cardContainer.appendChild(cardN1);
-// cardContainer.appendChild(cardN2);
-
-for (let i = 0; i < 10; i++) {
-    const c = i + 1;
-
-    card.contenuto.titolo = c + "° Posto";
-
-    const cardTmp = createCardElement(card);
-
-    cardTmp.addEventListener("click", (ev) => {
-        console.log(cardTmp.children[0].textContent + " cliccata");
+    // Aggiungi evento click per cambiare lo sfondo della card
+    cardTmp.addEventListener("click",() =>{
         cardTmp.classList.toggle("bg-green");
     });
 
+    // Aggiungi la card al contenitore principale
     cardContainer.appendChild(cardTmp);
+});
+
+
+function soloImmagini(){
+    console.log("Mostra solo immagini");
+    cardContainer.innerHTML = "";
+
+    cardList.forEach((item) => {
+       if (item.contenuto.immagine){
+           const cardTmp = createCardElement(item);
+           cardContainer.appendChild(cardTmp);
+       }
+    });
 }
+
+function soloTesto(){
+    console.log("Mostra solo testo");
+    cardContainer.innerHTML = "";
+
+    cardList.forEach((item) => {
+        if(!item.contenuto.immagine){
+            const cardTmp = createCardElement(item);
+            cardContainer.appendChild(cardTmp);
+        }
+    })
+}
+
+function mostraTutto(){
+    console.log("Mostra tutto");
+    cardContainer.innerHTML = "";
+
+    cardList.forEach((item) => {
+        const cardTmp = createCardElement(item);
+        cardContainer.appendChild(cardTmp);
+    });
+}
+
+
+
+
 
 
 
