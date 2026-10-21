@@ -78,7 +78,6 @@ const cardContainer = document.querySelector("#card-container-main");
 
 const listaFigli = cardContainer.children;
 const nFigliTot = listaFigli.length;
-``
 
 for (let i = 0; i < nFigliTot; i++) {
     console.log(`Elemento figlio ${i}: `, listaFigli[0].children[0].textContent);
@@ -121,55 +120,51 @@ function createCardElement(cardData){
     return cardElement;
 }
 
-cardList.forEach((item) => {
-    // Crea elemento Card dai dati dell'oggetto item
-    const cardTmp = createCardElement(item);
-
-    // Aggiungi evento click per cambiare lo sfondo della card
-    cardTmp.addEventListener("click",() =>{
-        cardTmp.classList.toggle("bg-green");
-    });
-
-    // Aggiungi la card al contenitore principale
-    cardContainer.appendChild(cardTmp);
-});
-
-
-function soloImmagini(){
-    console.log("Mostra solo immagini");
+const renderizzaCards = (listaCard) => {
     cardContainer.innerHTML = "";
 
-    cardList.forEach((item) => {
-       if (item.contenuto.immagine){
-           const cardTmp = createCardElement(item);
-           cardContainer.appendChild(cardTmp);
-       }
-    });
-}
-
-function soloTesto(){
-    console.log("Mostra solo testo");
-    cardContainer.innerHTML = "";
-
-    cardList.forEach((item) => {
-        if(!item.contenuto.immagine){
-            const cardTmp = createCardElement(item);
-            cardContainer.appendChild(cardTmp);
-        }
-    })
-}
-
-function mostraTutto(){
-    console.log("Mostra tutto");
-    cardContainer.innerHTML = "";
-
-    cardList.forEach((item) => {
+    listaCard.forEach((item) => {
+        // Crea elemento Card dai dati dell'oggetto item
         const cardTmp = createCardElement(item);
+
+        // Aggiungi evento click per cambiare lo sfondo della card
+        // (item) => {} -- item => {}
+        cardTmp.addEventListener(
+            "click",
+            () => cardTmp.classList.toggle("card-active")
+        );
+
+        // Aggiungi la card al contenitore principale
         cardContainer.appendChild(cardTmp);
     });
 }
 
+renderizzaCards(cardList);
 
+
+function soloImmagini(){
+    console.log("Mostra solo immagini");
+    const listTmp = cardList.filter(
+        item => item.contenuto.immagine !== ""
+    );
+
+    renderizzaCards(listTmp);
+}
+
+function soloTesto(){
+    console.log("Mostra solo testo");
+
+    const listaTmp = cardList.filter(
+        item => item.contenuto.immagine === ""
+    );
+
+    renderizzaCards(listaTmp);
+}
+
+function mostraTutto(){
+    console.log("Mostra tutto");
+    renderizzaCards(cardList);
+}
 
 
 
