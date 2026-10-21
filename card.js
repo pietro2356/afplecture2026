@@ -1,20 +1,5 @@
 "use strict";
 
-let card = {
-    contenuto: {
-        titolo: "Primo posto", // h1
-        sottotitolo:"Sci aplinismo", // h2
-        testo: "Primo classificato alle olimpiadi", // p
-        immagine: "" // img
-    },
-    bordo: {
-        colore: "",
-        stile: "",
-        dimensione: "",
-        raggio: ""
-    }
-}
-
 const cardList = [
     {
         contenuto: {
@@ -73,19 +58,18 @@ const cardList = [
         }
     }
 ];
-
 const cardContainer = document.querySelector("#card-container-main");
 
-const listaFigli = cardContainer.children;
-const nFigliTot = listaFigli.length;
+document.querySelector("#btn-only-img")
+    .addEventListener("click", soloImmagini);
+    // .addEventListener("click", () => soloImmagini())
 
-for (let i = 0; i < nFigliTot; i++) {
-    console.log(`Elemento figlio ${i}: `, listaFigli[0].children[0].textContent);
-    cardContainer.removeChild(listaFigli[0]);
-    // cardContainer.removeChild(listaFigli.item(i));
-}
+document.querySelector("#btn-only-text")
+    .addEventListener("click", soloTesto);
 
-// CREARE UN NUOVO ELEMENTO
+document.querySelector("#btn-all")
+    .addEventListener("click", mostraTutto);
+
 
 /**
  * Crea un elemento card basato sui dati forniti.
@@ -139,9 +123,6 @@ const renderizzaCards = (listaCard) => {
     });
 }
 
-renderizzaCards(cardList);
-
-
 function soloImmagini(){
     console.log("Mostra solo immagini");
     const listTmp = cardList.filter(
@@ -166,6 +147,8 @@ function mostraTutto(){
     renderizzaCards(cardList);
 }
 
+
+renderizzaCards(cardList);
 
 
 
