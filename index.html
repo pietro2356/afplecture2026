@@ -44,6 +44,43 @@
         >
         <label for="enable-adv-filter">Filtri avanzati</label>
 
+        <div>
+          <form id="card-form" method="get">
+            <!--
+              - TITOLO
+              - SOTTOTITOLO
+              - TESTO
+              - IMMAGINE
+            -->
+            <h3>Creazione Nuova Card</h3>
+            <div class="card-form-inputs">
+              <div class="form-input">
+                <label for="titolo">Titolo</label>
+                <input id="titolo" type="text" placeholder="Titolo della card" required>
+              </div>
+              <div class="form-input">
+                <label for="sottotitolo">Sottotitolo</label>
+                <input id="sottotitolo" type="text" placeholder="Sottotitolo della card" required>
+              </div>
+              <div class="form-input">
+                <label for="testo">Testo</label>
+                <input id="testo" type="text" placeholder="Testo della card" required>
+              </div>
+              <div class="form-input">
+                <label for="immagine">Immagine</label>
+                <!--            <input id="immagine" type="text" placeholder="Immagine della card" required>-->
+                <select id="immagine">
+                  <option value="">Nessuna immagine</option>
+                  <option value="TriageColorEntity.jpg">Immagine JPG</option>
+                  <option value="TriageColorEntity.png">Immagine PNG</option>
+                </select>
+              </div>
+            </div>
+
+            <button type="submit" style="margin-top: 10px">Crea card</button>
+          </form>
+        </div>
+
         <div id="card-container-main" class="card-container">
           <div class="card">
             <h3>Card 1</h3>

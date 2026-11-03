@@ -80,6 +80,13 @@ const btnImgJpg = document.querySelector("#btn-only-img-jpg");
 const btnText = document.querySelector("#btn-only-text");
 const btnAll = document.querySelector("#btn-all");
 
+const form = document.querySelector("#card-form");
+
+const inputTitolo = document.querySelector("#titolo");
+const inputSottotitolo = document.querySelector("#sottotitolo");
+const inputTesto = document.querySelector("#testo");
+const inputImmagine = document.querySelector("#immagine");
+
 btnImg.addEventListener("click", () => {
     categoriaAttiva = Categorie.IMMAGINI;
     applicaFiltriGlobali();
@@ -115,6 +122,56 @@ checkFiltri.addEventListener("change", (e) => {
 
     applicaFiltriGlobali();
 });
+
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    // RECUPERARE I VALORI DEGLI INPUT
+    const titolo = inputTitolo.value.trim();
+    const sottotitolo = inputSottotitolo.value.trim();
+    const testo = inputTesto.value.trim();
+    const immagine = inputImmagine.value.trim();
+
+    // CONTROLLO VALORI NON VUOTI
+    if (!titolo || titolo.length < 3) {
+        alert("Titolo non valido");
+        return;
+    }
+    if (!sottotitolo || sottotitolo.length < 3) {
+        alert("Sottotitolo non valido");
+        return;
+    }
+    if (!testo) {
+        alert("Testo non valido");
+        return;
+    }
+    // if (immagine.length === 0) alert("Immagine non valida"); CONTROLLO SALTABILE
+
+    // CREARE OGGETTO CARD
+    const nuovaCard = {
+        contenuto: {
+            titolo: titolo,
+            sottotitolo: sottotitolo,
+            testo: testo,
+            immagine: immagine,
+        },
+        bordo: {
+            colore: "",
+            stile: "",
+            dimensione: "",
+            raggio: ""
+        }
+    };
+
+    // CARICHIAMO LA CARD DENTRO cardList
+    cardList.push(nuovaCard);
+
+    // RESET DELLA FORM
+    form.reset();
+
+    // RENDERIZZARE LE CARD NUOVE
+    applicaFiltriGlobali();
+})
 
 
 const Categorie = Object.freeze({
