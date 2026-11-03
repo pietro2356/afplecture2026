@@ -1,3 +1,4 @@
+"use strict";
 const cardList = [
     {
         contenuto: {
@@ -80,29 +81,29 @@ const btnText = document.querySelector("#btn-only-text");
 const btnAll = document.querySelector("#btn-all");
 
 btnImg.addEventListener("click", () => {
-    categoriaAttiva = "IMMAGINI";
+    categoriaAttiva = Categorie.IMMAGINI;
     applicaFiltriGlobali();
 });
 
 btnText.addEventListener("click", () => {
-    categoriaAttiva = "TESTO";
+    categoriaAttiva = Categorie.TESTO;
     applicaFiltriGlobali();
 });
 
 btnAll.addEventListener("click", () => {
-    categoriaAttiva = "TUTTO";
+    categoriaAttiva = Categorie.TUTTI;
     applicaFiltriGlobali();
 });
 
 btnImgJpg.addEventListener("click", () => {
-    categoriaAttiva = "JPG";
+    categoriaAttiva = Categorie.JPG;
     applicaFiltriGlobali();
 });
 
 filtroInput.addEventListener("input", (e) => {
     testoRicerca = e.target.value.toLowerCase();
 
-    if (!filtriAvanzatiAttivi) categoriaAttiva = "TUTTI";
+    if (!filtriAvanzatiAttivi) categoriaAttiva = Categorie["TUTTI"]; // SAME AS categoriaAttiva = Categorie.TUTTI
 
     applicaFiltriGlobali();
 });
@@ -110,17 +111,18 @@ filtroInput.addEventListener("input", (e) => {
 checkFiltri.addEventListener("change", (e) => {
     filtriAvanzatiAttivi = e.target.checked;
 
-    if (!filtriAvanzatiAttivi && testoRicerca !== "") categoriaAttiva = "TUTTI";
+    if (!filtriAvanzatiAttivi && testoRicerca !== "") categoriaAttiva = Categorie.TUTTI;
 
     applicaFiltriGlobali();
 });
 
-const Categorie = {
+
+const Categorie = Object.freeze({
     TUTTI: "TUTTI",
     IMMAGINI: "IMMAGINI",
     TESTO: "TESTO",
     JPG: "JPG"
-}
+});
 
 
 // let categoriaAttiva = "TUTTI" // "IMMAGINI", "TESTO"
@@ -133,7 +135,7 @@ function applicaFiltriGlobali(){
     // A) Aggiornare stile bottoni
     resetAllFilterButton();
     if (categoriaAttiva === Categorie.TUTTI) enableBtn(btnAll);
-    if (categoriaAttiva === Categorie.IMMAGII) enableBtn(btnImg);
+    if (categoriaAttiva === Categorie.IMMAGINI) enableBtn(btnImg);
     if (categoriaAttiva === Categorie.TESTO) enableBtn(btnText);
     if (categoriaAttiva === Categorie.JPG) enableBtn(btnImgJpg);
 
@@ -141,15 +143,15 @@ function applicaFiltriGlobali(){
     let risCorrenti = cardList;
 
     // STEP 1. filtri Per categoria
-    if (categoriaAttiva === "IMMAGINI"){
+    if (categoriaAttiva === Categorie.IMMAGINI){
         risCorrenti = risCorrenti.filter(
             item => item.contenuto.immagine !== ""
         );
-    }else if(categoriaAttiva === "TESTO"){
+    }else if(categoriaAttiva === Categorie.TESTO){
         risCorrenti = risCorrenti.filter(
             item => item.contenuto.immagine === ""
         )
-    }else if(categoriaAttiva === "JPG"){
+    }else if(categoriaAttiva === Categorie.JPG){
         risCorrenti = risCorrenti.filter(
             item => item.contenuto.immagine.endsWith(".jpg")
         )
