@@ -1,81 +1,83 @@
 "use strict";
-let cardList = [
-    {
-        id: "0",
-        contenuto: {
-            titolo: "Primo posto", // h1
-            sottotitolo:"Sci aplinismo", // h2
-            testo: "Primo classificato alle olimpiadi", // p
-            immagine: "TriageColorEntity.jpg" // img
-        },
-        bordo: {
-            colore: "",
-            stile: "",
-            dimensione: "",
-            raggio: ""
-        }
-    },
-    {
-        id: "1",
-        contenuto: {
-            titolo: "Secondo posto", // h1
-            sottotitolo:"Sci aplinismo", // h2
-            testo: "Secondo classificato alle olimpiadi", // p
-            immagine: "" // img
-        },
-        bordo: {
-            colore: "",
-            stile: "",
-            dimensione: "",
-            raggio: ""
-        }
-    },
-    {
-        id: "2",
-        contenuto: {
-            titolo: "Terzo posto", // h1
-            sottotitolo:"Sci aplinismo", // h2
-            testo: "Terzo classificato alle olimpiadi", // p
-            immagine: "" // img
-        },
-        bordo: {
-            colore: "",
-            stile: "",
-            dimensione: "",
-            raggio: ""
-        }
-    },
-    {
-        id: "3",
-        contenuto: {
-            titolo: "Quarto posto", // h1
-            sottotitolo:"Sci aplinismo", // h2
-            testo: "Quarto classificato alle olimpiadi", // p
-            immagine: "TriageColorEntity.png" // img
-        },
-        bordo: {
-            colore: "",
-            stile: "",
-            dimensione: "",
-            raggio: ""
-        }
-    },
-    {
-        id: "4",
-        contenuto: {
-            titolo: "Quinto", // h1
-            sottotitolo:"Sci aplinismo", // h2
-            testo: "Quarto classificato alle olimpiadi", // p
-            immagine: "TriageColorEntity.png" // img
-        },
-        bordo: {
-            colore: "",
-            stile: "",
-            dimensione: "",
-            raggio: ""
-        }
-    }
-];
+// let cardList = [
+//     {
+//         id: "0",
+//         contenuto: {
+//             titolo: "Primo posto", // h1
+//             sottotitolo:"Sci aplinismo", // h2
+//             testo: "Primo classificato alle olimpiadi", // p
+//             immagine: "TriageColorEntity.jpg" // img
+//         },
+//         bordo: {
+//             colore: "",
+//             stile: "",
+//             dimensione: "",
+//             raggio: ""
+//         }
+//     },
+//     {
+//         id: "1",
+//         contenuto: {
+//             titolo: "Secondo posto", // h1
+//             sottotitolo:"Sci aplinismo", // h2
+//             testo: "Secondo classificato alle olimpiadi", // p
+//             immagine: "" // img
+//         },
+//         bordo: {
+//             colore: "",
+//             stile: "",
+//             dimensione: "",
+//             raggio: ""
+//         }
+//     },
+//     {
+//         id: "2",
+//         contenuto: {
+//             titolo: "Terzo posto", // h1
+//             sottotitolo:"Sci aplinismo", // h2
+//             testo: "Terzo classificato alle olimpiadi", // p
+//             immagine: "" // img
+//         },
+//         bordo: {
+//             colore: "",
+//             stile: "",
+//             dimensione: "",
+//             raggio: ""
+//         }
+//     },
+//     {
+//         id: "3",
+//         contenuto: {
+//             titolo: "Quarto posto", // h1
+//             sottotitolo:"Sci aplinismo", // h2
+//             testo: "Quarto classificato alle olimpiadi", // p
+//             immagine: "TriageColorEntity.png" // img
+//         },
+//         bordo: {
+//             colore: "",
+//             stile: "",
+//             dimensione: "",
+//             raggio: ""
+//         }
+//     },
+//     {
+//         id: "4",
+//         contenuto: {
+//             titolo: "Quinto", // h1
+//             sottotitolo:"Sci aplinismo", // h2
+//             testo: "Quarto classificato alle olimpiadi", // p
+//             immagine: "TriageColorEntity.png" // img
+//         },
+//         bordo: {
+//             colore: "",
+//             stile: "",
+//             dimensione: "",
+//             raggio: ""
+//         }
+//     }
+// ];
+const LOCAL_STORAGE_KEY = "afp_card_list_2026";
+let cardList = caricaCardList();
 const cardContainer = document.querySelector("#card-container-main");
 const filtroInput = document.querySelector("#filter-input");
 const checkFiltri = document.querySelector("#enable-adv-filter")
@@ -98,7 +100,6 @@ const btnRollbackEdit = document.querySelector("#btn-rollback-edit");
 
 // Variabile per tenere traccia della card in modifica
 let idCardinModifica = null;
-const LOCAL_STORAGE_KEY = "afp_card_list_2026";
 
 
 btnImg.addEventListener("click", () => {
@@ -272,6 +273,11 @@ function resetAllFilterButton(){
 function renderizzaCards(listaCard){
     cardContainer.innerHTML = "";
 
+    if (!Array.isArray(listaCard)){
+        console.error("Il parametro passato `listaCard` non è un vettore valido", listaCard);
+        return;
+    }
+
     listaCard.forEach((item) => {
         // Crea elemento Card dai dati dell'oggetto item
         const cardTmp = createCardElement(item);
@@ -386,10 +392,23 @@ function eliminaCard(id){
         resetFormModifica();
     }
 
+    salvaCardList();
     applicaFiltriGlobali();
 }
-function caricaCardList(){
 
+function caricaCardList(){
+    const datiSalvati = localStorage.getItem(LOCAL_STORAGE_KEY);
+    // if (datiSalvati === null)
+    if(!datiSalvati) return [];
+
+    try{
+        return JSON.parse(datiSalvati);
+    } catch (ex){
+        console.error("Errore nella traduzione dei dati", ex.message);
+    } finally {
+        console.log("Dati caricati con successo");
+    }
+    return [];
 }
 
 function salvaCardList(){
