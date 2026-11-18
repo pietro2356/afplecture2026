@@ -50,9 +50,25 @@ async function showUserData(id){
     }
 }
 
+
 showUserData(1); // RESOLVE
 showUserData(-2) // REJECT
 
+checkIfIdExist(1)
+    .then((userId) => {
+        loadUserProfileById(userId)
+            .then((user) => console.log(user))
+            .catch(e => console.error(e.message));
+    })
+    .catch(e => console.error(e.message));
+
+checkIfIdExist(-3)
+    .then((userId) => {
+        loadUserProfileById(userId)
+            .then((user) => console.log(user))
+            .catch(e => console.error(e.message));
+    })
+    .catch(e => console.error(e.message));
 
 
 

@@ -97,9 +97,14 @@ const inputImmagine = document.querySelector("#immagine");
 const formTitle = document.querySelector("#card-form>h3");
 const btnSubmit = document.querySelector("#card-form>button[type='submit']");
 const btnRollbackEdit = document.querySelector("#btn-rollback-edit");
+const btnFetchGattini = document.querySelector('#btn-fetch-gattini');
 
 // Variabile per tenere traccia della card in modifica
 let idCardinModifica = null;
+
+btnFetchGattini.addEventListener('click', () => {
+    fetchGattini();
+});
 
 
 btnImg.addEventListener("click", () => {
@@ -416,6 +421,42 @@ function salvaCardList(){
         LOCAL_STORAGE_KEY,
         JSON.stringify(cardList)
     );
+}
+
+async function fetchGattini(){
+    try {
+        cardContainer.innerHTML = "<h3>Caricamento gattini dal web...</h3>";
+        const res = await fetch('https://api.thecatapi.com/v1/images/search?limit=6');
+        if (!res.ok){
+            throw new Error("Errore HTTP: " + res.status);
+        }
+
+        const data = await res.json();
+
+        cardList = data.map((item, index) => {
+            return {
+                id: item.id,
+                contenuto: {
+                    titolo: item.id,
+                    sottotitolo: "N/A",
+                    testo: item.width + "x" + item.height,
+                    immagine: item.url,
+                },
+                bordo: {
+                    colore: "",
+                    stile: "",
+                    dimensione: "",
+                    raggio: ""
+                }
+            }
+        });
+
+        applicaFiltriGlobali();
+
+    }catch (e) {
+        console.error("Errore di rete: ", e.message);
+        cardContainer.innerHTML = "<h3>Errore: Errore di rete</h3>";
+    }
 }
 
 
